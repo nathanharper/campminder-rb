@@ -58,23 +58,23 @@ describe CampMinder::ClientLinkRequest do
   describe '#expiration_time' do
     it 'unencodes the expiration time' do
       expect(@signed_request_factory).to receive(:get_payload).with(@client_link_request.signed_object).and_return('2011-04-13T17:15:49Z')
-      expect(@client_link_request.expiration_time).to eq DateTime.new(2011, 4, 13, 17, 15, 49)
+      expect(@client_link_request.expiration_time).to eq Time.new(2011, 4, 13, 17, 15, 49, 0)
     end
   end
 
   describe '#valid_expiration_time?' do
     it 'returns true if date has not passed' do
-      allow(@client_link_request).to receive(:expiration_time).and_return(DateTime.now + Rational(1, 86400))
+      allow(@client_link_request).to receive(:expiration_time).and_return(Time.now + 1)
       expect(@client_link_request.valid_expiration_time?).to be true
     end
 
     it 'returns false if date is now' do
-      allow(@client_link_request).to receive(:expiration_time).and_return(DateTime.now)
+      allow(@client_link_request).to receive(:expiration_time).and_return(Time.now)
       expect(@client_link_request.valid_expiration_time?).to be false
     end
 
     it 'returns false if date has passed' do
-      allow(@client_link_request).to receive(:expiration_time).and_return(DateTime.now - Rational(1, 86400))
+      allow(@client_link_request).to receive(:expiration_time).and_return(Time.now - 1)
       expect(@client_link_request.valid_expiration_time?).to be false
     end
   end

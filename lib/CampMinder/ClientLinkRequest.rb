@@ -18,16 +18,16 @@ class CampMinder::ClientLinkRequest
   end
 
   def expiration_time
-    DateTime.parse(signed_request_factory.get_payload(@signed_object))
+    Time.parse(signed_request_factory.get_payload(@signed_object))
   end
 
   def valid_expiration_time?
-    expiration_time > DateTime.now
+    expiration_time > Time.now.utc
   end
 
   private
 
   def signed_request_factory
-    @signed_request_factory ||= CampMinder::SignedRequestFactory.new
+    @signed_request_factory ||= CampMinder::SignedRequestFactory.new(CampMinder::SECRET_CODE)
   end
 end
