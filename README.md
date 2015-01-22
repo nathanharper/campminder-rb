@@ -4,12 +4,6 @@
 
 Library to interface InterExchange with the CampMinder ClientLink API.
 
-:warning: **Sensitive Information** :warning:
-
-We are using `.gitignore` to ensure that documentation and examples provided by
-CampMinder are not shared, InterExchange Employees can get a branch with the examples
-by contacting [@dirkkelly](https://github.com/dirkkelly).
-
 ## Installation
 
 Add this line to your application's Gemfile:
