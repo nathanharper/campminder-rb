@@ -34,10 +34,6 @@ describe CampMinder::ClientLinkRequest do
       expect(@client_link_request.signed_object).to eq 'ABC.123'
     end
 
-    it 'assigns the token attribute' do
-      expect(@client_link_request.token).to eq 'DEF-456'
-    end
-
     it 'assigns the client_id attribute' do
       expect(@client_link_request.client_id).to eq 'C-123'
     end
@@ -55,6 +51,10 @@ describe CampMinder::ClientLinkRequest do
     end
   end
 
+  describe '#token' do
+    it 'assigns the token attribute'
+  end
+
   describe '#expiration_time' do
     it 'unencodes the expiration time' do
       expect(@signed_request_factory).to receive(:get_payload).with(@client_link_request.signed_object).and_return('2011-04-13T17:15:49Z')
@@ -62,9 +62,20 @@ describe CampMinder::ClientLinkRequest do
     end
   end
 
-  describe '#valid?' do
-    it 'returns false' do
-      expect(@client_link_request.valid?).to be false
+  describe '#valid_expiration_time?' do
+    it 'returns true if date has not passed' do
+      allow(@client_link_request).to receive(:expiration_time).and_return(DateTime.now + Rational(1, 86400))
+      expect(@client_link_request.valid_expiration_time?).to be true
+    end
+
+    it 'returns false if date is now' do
+      allow(@client_link_request).to receive(:expiration_time).and_return(DateTime.now)
+      expect(@client_link_request.valid_expiration_time?).to be false
+    end
+
+    it 'returns false if date has passed' do
+      allow(@client_link_request).to receive(:expiration_time).and_return(DateTime.now - Rational(1, 86400))
+      expect(@client_link_request.valid_expiration_time?).to be false
     end
   end
 end

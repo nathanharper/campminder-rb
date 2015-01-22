@@ -21,8 +21,8 @@ class CampMinder::ClientLinkRequest
     DateTime.parse(signed_request_factory.get_payload(@signed_object))
   end
 
-  def valid?
-    false
+  def valid_expiration_time?
+    expiration_time > DateTime.now
   end
 
   private
