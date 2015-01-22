@@ -78,4 +78,16 @@ describe CampMinder::ClientLinkRequest do
       expect(@client_link_request.valid_expiration_time?).to be false
     end
   end
+
+  describe '#invalid_reason' do
+    it 'returns nil if valid_expiration_time?' do
+      allow(@client_link_request).to receive(:valid_expiration_time?).and_return(true)
+      expect(@client_link_request.invalid_reason).to eq nil
+    end
+
+    it 'returns message if not valid_expiration_time?' do
+      allow(@client_link_request).to receive(:valid_expiration_time?).and_return(false)
+      expect(@client_link_request.invalid_reason).to eq "Invalid GetLinkRequest - signature was invalid!"
+    end
+  end
 end

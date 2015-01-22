@@ -25,6 +25,12 @@ class CampMinder::ClientLinkRequest
     expiration_time > Time.now.utc
   end
 
+  def invalid_reason
+    return if valid_expiration_time?
+
+    "Invalid GetLinkRequest - signature was invalid!"
+  end
+
   private
 
   def signed_request_factory
