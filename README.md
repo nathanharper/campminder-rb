@@ -7,6 +7,22 @@ Library to interface InterExchange with the CampMinder ClientLink API.
 We are using `.gitignore` to ensure that documentation and examples provided by
 CampMinder are not shared.
 
+## Installation
+
+Add this line to your application's Gemfile:
+
+```ruby
+gem 'InterExchange-CampMinder'
+```
+
+And then execute:
+
+    $ bundle
+
+Or install it yourself as:
+
+    $ gem install InterExchange-CampMinder
+
 ## Usage
 
 ## Domain
@@ -35,6 +51,15 @@ As a staffing partner we use the API to send Staff for the client.
 
 ## Testing
 
+
+
+## Contributing
+
+1. Fork it ( https://github.com/interexchange/campminder-rb/fork )
+2. Create your feature branch (`git checkout -b my-new-feature`)
+3. Commit your changes (`git commit -am 'Add some feature'`)
+4. Push to the branch (`git push origin my-new-feature`)
+5. Create a new Pull Request
 
 ## LICENCE
 
