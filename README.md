@@ -47,6 +47,9 @@ sample settings.
 
 ### ClientLinkRequest
 
+POST https://partner.eg/camp_minder_handler
+CONTENT-TYPE ?multipart/form-data?
+
 ## Domain
 
 ### CampMinder
@@ -73,6 +76,10 @@ As a staffing partner we use the API to send Staff for the client.
 ## Testing
 
     $ rake
+
+There is a dummy rails app at `spec/dummy`, the gems spec suite should be used to execute these tests, eg:
+
+    rspec spec/dummy/spec/
 
 ## Contributing
 
