@@ -2,7 +2,7 @@ require 'spec_helper'
 
 describe CampMinder::ClientLinkRequest do
   before do
-    data = {
+    @data = {
       'fn' => 'ClientLinkRequest',
       'username' => 'johndoe',
       'password' => 'secret',
@@ -11,7 +11,7 @@ describe CampMinder::ClientLinkRequest do
       'clientID' => 'C-123',
       'personID' => 'P-123'
     }
-    @client_link_request = CampMinder::ClientLinkRequest.new(data)
+    @client_link_request = CampMinder::ClientLinkRequest.new(@data)
   end
 
   describe '#initialize' do
@@ -41,6 +41,14 @@ describe CampMinder::ClientLinkRequest do
 
     it 'assigns the person_id attribute' do
       expect(@client_link_request.person_id).to eq 'P-123'
+    end
+
+    it 'raises an exception on missing attributes' do
+      data_without_username = @data.tap { |data| data.delete('username') }
+
+      expect do
+        CampMinder::ClientLinkRequest.new(data_without_username)
+      end.to raise_error KeyError
     end
   end
 
