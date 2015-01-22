@@ -1,0 +1,76 @@
+﻿<staffDataContainer version="1">
+  <cmClientId>{CLIENTID}</cmClientId>
+  <token>{GUID TOKEN}</token>
+  <partnerClientId>{PARTNER ID}</partnerClientId>
+  <staffDataArray>
+    <staffData version="1">
+      <uniqueKey>UniqueKey (REQUIRED)</uniqueKey>
+      <firstName>FirstName (REQUIRED)</firstName>
+      <lastName>LastName (REQUIRED)</lastName>
+      <gender>1 (REQUIRED - 0 for female and 1 for male)</gender>
+      <dob>2013-02-27 (REQUIRED)</dob>
+      <birthPlace>Birthplace (REQUIRED)</birthPlace>
+      <citizenship>Citizenship (REQUIRED)</citizenship>
+      <address1>Address1 (REQUIRED)</address1>
+      <city>City (REQUIRED)</city>
+      <isStateProvinceRequired>True (REQUIRED)</isStateProvinceRequired>
+      <stateProvince>StateProvince (REQUIRED when IsStateProvinceRequired is true)</stateProvince>
+      <isPostalCodeRequired>True (REQUIRED)</isPostalCodeRequired>
+      <postalCode>PostalCode (REQUIRED when IsPostalCodeRequired is true)</postalCode>
+      <country>Country (REQUIRED)</country>
+      <email>Email (REQUIRED)</email>
+      <agencyMemberNumber>1234 (REQUIRED)</agencyMemberNumber>
+      <address2>Address2</address2>
+      <middleInitial>MiddleInitial</middleInitial>
+      <nickName>NickName</nickName>
+      <nationalID>NationalID</nationalID>
+      <licenseState>LicenseState</licenseState>
+      <licenseNumber>LicenseNumber</licenseNumber>
+      <permanentPhone>PermanentPhone</permanentPhone>
+      <schoolPhone>SchoolPhone</schoolPhone>
+      <cellPhone>333-333-4444</cellPhone>
+      <workPhone>WorkPhone</workPhone>
+      <otherPhone>OtherPhone</otherPhone>
+      <email2>Email2</email2>
+      <hireDate>2013-02-27</hireDate>
+      <occupationYearAtSchool>OccupationYearAtSchool</occupationYearAtSchool>
+      <employmentStartDate>2013-02-27</employmentStartDate>
+      <employmentEndDate>2013-02-27</employmentEndDate>
+      <school>School</school>
+      <schoolAddress1>SchoolAddress1</schoolAddress1>
+      <schoolAddress2>SchoolAddress2</schoolAddress2>
+      <schoolCity>SchoolCity</schoolCity>
+      <schoolState>SchoolState</schoolState>
+      <schoolPostalCode>SchoolPostalCode</schoolPostalCode>
+      <schoolCountry>SchoolCountry</schoolCountry>
+      <major>Major</major>
+      <springBreak>SpringBreak</springBreak>
+      <summerBreak>SummerBreak</summerBreak>
+      <graduationDate>2013-02-27</graduationDate>
+      <extracurricularActivities>ExtracurricularActivities</extracurricularActivities>
+      <career>Career</career>
+      <maritalStatus>4</maritalStatus>
+      <baseSalary>$0.00</baseSalary>
+      <agencyFee>$0.00</agencyFee>
+      <specialTerms>SpecialTerms</specialTerms>
+      <arrestRecord>False</arrestRecord>
+      <duiRecord>False</duiRecord>
+      <childAbuseRecord>False</childAbuseRecord>
+      <smoking>False</smoking>
+      <smallCraftAbility>False</smallCraftAbility>
+      <cprExpiration>2013-02-27</cprExpiration>
+      <firstAidExpiration>2013-02-27</firstAidExpiration>
+      <lifeguardExpiration>2013-02-27</lifeguardExpiration>
+      <wsiExpiration>2013-02-27</wsiExpiration>
+      <height>Height</height>
+      <weight>Weight</weight>
+      <wildernessEMTExpiration>2013-02-27</wildernessEMTExpiration>
+      <ropesExpiration>2013-02-27</ropesExpiration>
+      <canoeingExpiration>2013-02-27</canoeingExpiration>
+      <sailingExpiration>2013-02-27</sailingExpiration>
+      <militaryExperience>MilitaryExperience</militaryExperience>
+      <foreignLanguages>ForeignLanguages</foreignLanguages>
+      <musicalInstruments>MusicalInstruments</musicalInstruments>
+    </staffData>
+  </staffDataArray>
+</staffDataContainer>
