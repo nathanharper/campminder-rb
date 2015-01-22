@@ -1,14 +1,14 @@
 # coding: utf-8
 lib = File.expand_path('../lib', __FILE__)
 $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
-require 'InterExchange/CampMinder/version'
+require 'CampMinder/version'
 
 Gem::Specification.new do |spec|
-  spec.name          = "InterExchange-CampMinder"
-  spec.version       = InterExchange::CampMinder::VERSION
+  spec.name          = "CampMinder"
+  spec.version       = CampMinder::VERSION
   spec.authors       = ["Dirk Kelly"]
   spec.email         = ["iex-eng+dirkkelly@googlegroups.com"]
-  spec.summary       = %q{Interface InterExchange for CampMinder ClientLink API.}
+  spec.summary       = %q{Interface for CampMinder ClientLink API.}
   spec.homepage      = "https://github.com/interexchange/campminder-rb"
   spec.license       = "MIT"
 

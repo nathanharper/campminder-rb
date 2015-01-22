@@ -13,7 +13,7 @@ by contacting [@dirkkelly](https://github.com/dirkkelly).
 Add this line to your application's Gemfile:
 
 ```ruby
-gem 'InterExchange-CampMinder'
+gem 'CampMinder'
 ```
 
 And then execute:
@@ -22,17 +22,16 @@ And then execute:
 
 Or install it yourself as:
 
-    $ gem install InterExchange-CampMinder
+    $ gem install CampMinder
 
 ## Usage
 
 ## Domain
 
-### InterExchange::CampMinder
+### CampMinder
 
-All Classes are namespaced within `InterExchange::CampMinder`, we're using example documentation
-provided to us by CampMinder to build the domain, the InterExchange domain objects will be referenced
-in tests, but won't be tied to this implementation.
+All Classes are namespaced within `CampMinder`, we're using example documentation
+provided to us by CampMinder to build the domain tests.
 
 ### Partner
 
@@ -65,23 +64,4 @@ As a staffing partner we use the API to send Staff for the client.
 
 ## LICENCE
 
-```
-Copyright (c) 2015 InterExchange
-
-Permission is hereby granted, free of charge, to any person obtaining a copy
-of this software and associated documentation files (the "Software"), to deal
-in the Software without restriction, including without limitation the rights
-to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies
-of the Software, and to permit persons to whom the Software is furnished to do so,
-subject to the following conditions:
-
-The above copyright notice and this permission notice shall be included in all copies
-or substantial portions of the Software.
-
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED,
-INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A
-PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT
-HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION
-OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
-SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
-```
+`LICENSE.txt`
