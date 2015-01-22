@@ -11,7 +11,7 @@ class CampMinder::SignedRequestFactory
 
   def is_valid_request?(signed_request)
     encoded_signature, payload = signed_request.split('.')
-    encoded_signature === Base64.encode64(OpenSSL::HMAC.digest(OpenSSL::Digest::Digest.new('sha256'), @secret_code, payload)).strip()
+    encoded_signature === Base64.encode64(OpenSSL::HMAC.digest(OpenSSL::Digest.new('sha256'), @secret_code, payload)).strip()
   end
 
   def get_payload(signed_payload)

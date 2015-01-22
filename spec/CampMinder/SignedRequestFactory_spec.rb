@@ -31,13 +31,13 @@ describe CampMinder::SignedRequestFactory do
     end
 
     it 'returns true if payload signed with SECRET_CODE' do
-      @encoded_signature = Base64.encode64(OpenSSL::HMAC.digest(OpenSSL::Digest::Digest.new('sha256'), CampMinder::SECRET_CODE, @encoded_payload)).strip()
+      @encoded_signature = Base64.encode64(OpenSSL::HMAC.digest(OpenSSL::Digest.new('sha256'), CampMinder::SECRET_CODE, @encoded_payload)).strip()
       @signed_payload = "#{@encoded_signature}.#{@encoded_payload}"
       expect(@signed_request_factory.is_valid_request?(@signed_payload)).to eq true
     end
 
     it 'returns false if payload not signed with SECRET_CODE' do
-      @encoded_signature = Base64.encode64(OpenSSL::HMAC.digest(OpenSSL::Digest::Digest.new('sha256'), "lol", @encoded_payload)).strip()
+      @encoded_signature = Base64.encode64(OpenSSL::HMAC.digest(OpenSSL::Digest.new('sha256'), "lol", @encoded_payload)).strip()
       @signed_payload = "#{@encoded_signature}.#{@encoded_payload}"
       expect(@signed_request_factory.is_valid_request?(@signed_payload)).to eq false
     end
