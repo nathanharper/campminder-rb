@@ -47,6 +47,9 @@ sample settings.
 
 ### ClientLinkRequest
 
+POST https://partner.eg/camp_minder_handler
+CONTENT-TYPE ?multipart/form-data?
+
 ## Domain
 
 ### CampMinder

@@ -1,3 +1,5 @@
+require 'virtus'
+
 module CampMinder
 end
 
