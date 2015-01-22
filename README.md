@@ -1,6 +1,8 @@
 # CampMinder.rb
 
 [![Circle CI](https://circleci.com/gh/interexchange/campminder-rb.svg?style=svg)](https://circleci.com/gh/interexchange/campminder-rb)
+[![Code Climate](https://codeclimate.com/github/interexchange/campminder-rb/badges/gpa.svg)](https://codeclimate.com/github/interexchange/campminder-rb)
+[![Test Coverage](https://codeclimate.com/github/interexchange/campminder-rb/badges/coverage.svg)](https://codeclimate.com/github/interexchange/campminder-rb)
 
 Library to interface InterExchange with the [CampMinder](http://www.campminder.com) ClientLink API.
 
