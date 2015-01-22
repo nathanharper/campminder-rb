@@ -24,13 +24,35 @@ describe CampMinder::SignedRequestFactory do
     end
   end
 
-  describe '#get_payload' do
-    it 'decodes the last part of payload' do
-      payload = "Hello World"
-      encoded_payload = Base64.encode64(payload)
-      signed_payload = "ABC.#{encoded_payload}"
+  describe '#is_valid_request?' do
+    before do
+      @payload = "Hello World"
+      @encoded_payload = Base64.encode64(@payload)
+    end
 
-      expect(@signed_request_factory.get_payload(signed_payload)).to eq payload
+    it 'returns true if payload signed with SECRET_CODE' do
+      @encoded_signature = Base64.encode64(OpenSSL::HMAC.digest(OpenSSL::Digest::Digest.new('sha256'), CampMinder::SECRET_CODE, @encoded_payload)).strip()
+      @signed_payload = "#{@encoded_signature}.#{@encoded_payload}"
+      expect(@signed_request_factory.is_valid_request?(@signed_payload)).to eq true
+    end
+
+    it 'returns false if payload not signed with SECRET_CODE' do
+      @encoded_signature = Base64.encode64(OpenSSL::HMAC.digest(OpenSSL::Digest::Digest.new('sha256'), "lol", @encoded_payload)).strip()
+      @signed_payload = "#{@encoded_signature}.#{@encoded_payload}"
+      expect(@signed_request_factory.is_valid_request?(@signed_payload)).to eq false
+    end
+  end
+
+  describe '#get_payload' do
+    before do
+      @payload = "Hello World"
+      @encoded_payload = Base64.encode64(@payload)
+      @encoded_signature = "ABC"
+      @signed_payload = "#{@encoded_signature}.#{@encoded_payload}"
+    end
+
+    it 'decodes the last part of payload' do
+      expect(@signed_request_factory.get_payload(@signed_payload)).to eq @payload
     end
   end
 end
