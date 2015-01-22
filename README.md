@@ -77,6 +77,10 @@ As a staffing partner we use the API to send Staff for the client.
 
     $ rake
 
+There is a dummy rails app at `spec/dummy`, the gems spec suite should be used to execute these tests, eg:
+
+    rspec spec/dummy/spec/
+
 ## Contributing
 
 1. Fork it ( https://github.com/interexchange/campminder-rb/fork )
