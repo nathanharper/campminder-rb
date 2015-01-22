@@ -34,6 +34,10 @@ describe CampMinder::ClientLinkRequest do
       expect(@client_link_request.signed_object).to eq 'ABC.123'
     end
 
+    it 'assigns the token attribute' do
+      expect(@client_link_request.token).to eq 'DEF-456'
+    end
+
     it 'assigns the client_id attribute' do
       expect(@client_link_request.client_id).to eq 'C-123'
     end
@@ -49,10 +53,6 @@ describe CampMinder::ClientLinkRequest do
         CampMinder::ClientLinkRequest.new(data_without_username)
       end.to raise_error KeyError
     end
-  end
-
-  describe '#token' do
-    it 'assigns the token attribute'
   end
 
   describe '#expiration_time' do

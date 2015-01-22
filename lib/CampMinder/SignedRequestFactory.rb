@@ -1,3 +1,2 @@
 class CampMinder::SignedRequestFactory
-  
 end
