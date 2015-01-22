@@ -1,5 +1,5 @@
 require 'dotenv'
-puts Dotenv.load
+Dotenv.load
 
 require 'codeclimate-test-reporter'
 CodeClimate::TestReporter.start
