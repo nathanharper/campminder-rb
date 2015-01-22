@@ -1,5 +1,7 @@
 # InterExchange::CampMinder.rb
 
+[![Circle CI](https://circleci.com/gh/interexchange/campminder-rb.svg?style=svg)](https://circleci.com/gh/interexchange/campminder-rb)
+
 Library to interface InterExchange with the CampMinder ClientLink API.
 
 :warning: **Sensitive Information** :warning:

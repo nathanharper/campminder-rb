@@ -27,7 +27,7 @@ PLATFORMS
 
 DEPENDENCIES
   CampMinder!
-  bundler (~> 1.7)
+  bundler
   dotenv (~> 1.0)
   rake (~> 10.0)
   rspec (~> 3.1)
