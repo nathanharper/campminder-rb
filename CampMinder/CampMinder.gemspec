@@ -8,8 +8,9 @@ Gem::Specification.new do |spec|
   spec.version       = CampMinder::VERSION
   spec.authors       = ["Dirk Kelly"]
   spec.email         = ["iex-eng+dirkkelly@googlegroups.com"]
-  spec.summary       = %q{Interface for CampMinder ClientLink API.}
-  spec.homepage      = "https://github.com/interexchange/campminder-rb"
+  spec.summary       = %q{TODO: Write a short summary. Required.}
+  spec.description   = %q{TODO: Write a longer description. Optional.}
+  spec.homepage      = ""
   spec.license       = "MIT"
 
   spec.files         = `git ls-files -z`.split("\x0")
@@ -19,6 +20,5 @@ Gem::Specification.new do |spec|
 
   spec.add_development_dependency "bundler", "~> 1.7"
   spec.add_development_dependency "rake", "~> 10.0"
-  spec.add_development_dependency "rspec", "~> 3.1"
-  spec.add_development_dependency "dotenv", "~> 1.0"
+  spec.add_development_dependency "rspec"
 end

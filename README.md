@@ -42,6 +42,9 @@ outgoing requests.
 A URL on CampMinder’s system to which you will redirect control as
 the last step of the Connection Establishment procedure.
 
+For local gem testing there is a `.env` file in this respository with
+sample settings.
+
 ## Usage
 
 ### ClientLinkRequest
@@ -71,8 +74,7 @@ As a staffing partner we use the API to send Staff for the client.
 
 ## Testing
 
-    $ bundle exec rspec
-
+    $ rake
 
 ## Contributing
 
