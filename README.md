@@ -6,7 +6,7 @@ Library to interface InterExchange with the CampMinder ClientLink API.
 
 We are using `.gitignore` to ensure that documentation and examples provided by
 CampMinder are not shared, InterExchange Employees can get a branch with the examples
-by contacting @dirkkelly.
+by contacting [@dirkkelly](https://github.com/dirkkelly).
 
 ## Installation
 
