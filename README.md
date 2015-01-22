@@ -24,7 +24,27 @@ Or install it yourself as:
 
     $ gem install CampMinder
 
+## Configuration
+
+Environment variables are used to configure your CampMinder credentials.
+
+`CAMPMINDER_BUSINESS_PARTNER_ID`:
+The integer ID of your company in CampMinder's system.
+
+`CAMPMINDER_SECRET_CODE`:
+The secret code of your company in CampMinder's system.
+
+`CAMPMINDER_WEB_SERVICE_URL`:
+A URL on CampMinder’s system to which you will send all
+outgoing requests.
+
+`CAMPMINDER_REDIRECTION_URL`:
+A URL on CampMinder’s system to which you will redirect control as
+the last step of the Connection Establishment procedure.
+
 ## Usage
+
+### ClientLinkRequest
 
 ## Domain
 
