@@ -1,0 +1,3 @@
+class CampMinder::SignedRequestFactory
+  
+end

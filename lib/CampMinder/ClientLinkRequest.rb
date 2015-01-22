@@ -17,7 +17,17 @@ class CampMinder::ClientLinkRequest
     @person_id = args.fetch('personID')
   end
 
+  def expiration_time
+    DateTime.parse(signed_request_factory.get_payload(@signed_object))
+  end
+
   def valid?
     false
+  end
+
+  private
+
+  def signed_request_factory
+    @signed_request_factory ||= CampMinder::SignedRequestFactory.new
   end
 end

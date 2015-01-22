@@ -2,6 +2,9 @@ require 'spec_helper'
 
 describe CampMinder::ClientLinkRequest do
   before do
+    @signed_request_factory = double("SignedRequestFactory", get_payload: nil)
+    allow(CampMinder::SignedRequestFactory).to receive(:new).and_return(@signed_request_factory)
+
     @data = {
       'fn' => 'ClientLinkRequest',
       'username' => 'johndoe',
@@ -52,13 +55,16 @@ describe CampMinder::ClientLinkRequest do
     end
   end
 
+  describe '#expiration_time' do
+    it 'unencodes the expiration time' do
+      expect(@signed_request_factory).to receive(:get_payload).with(@client_link_request.signed_object).and_return('2011-04-13T17:15:49Z')
+      expect(@client_link_request.expiration_time).to eq DateTime.new(2011, 4, 13, 17, 15, 49)
+    end
+  end
+
   describe '#valid?' do
     it 'returns false' do
       expect(@client_link_request.valid?).to be false
     end
-  end
-
-  describe '#expiration_time' do
-
   end
 end

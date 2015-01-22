@@ -20,6 +20,7 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency "bundler"
   spec.add_development_dependency "rake", "~> 10.0"
   spec.add_development_dependency "rspec", "~> 3.1"
+  spec.add_development_dependency "rspec-mocks", "~> 3.1"
   spec.add_development_dependency "dotenv", "~> 1.0"
   spec.add_development_dependency "codeclimate-test-reporter", "~> 0.4"
 
