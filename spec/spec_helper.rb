@@ -18,3 +18,7 @@ Bundler.require
 require File.expand_path('../dummy/config/environment', __FILE__)
 
 Dir[File.dirname(__FILE__) + "/support/**/*.rb"].each {|f| require f }
+
+RSpec.configure do |config|
+  config.include CampMinderSpecs
+end
