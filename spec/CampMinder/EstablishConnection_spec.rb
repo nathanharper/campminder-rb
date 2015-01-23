@@ -49,9 +49,9 @@ describe CampMinder::EstablishConnection do
     end
   end
 
-  describe '#to_xml' do
-    it 'generates an xml object' do
-      expect(@establish_connection.to_xml(root: 'responseObject')).to eq @payload
+  describe '#payload' do
+    it 'generates an xml payload' do
+      expect(@establish_connection.payload).to eq @payload
     end
   end
 

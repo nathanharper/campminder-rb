@@ -14,9 +14,12 @@ class CampMinder::EstablishConnection
     @partnerClientID = data.fetch('partnerClientID')
   end
 
+  def payload
+    to_xml(root: 'responseObject')
+  end
+
   def signed_object
     signed_request_factory = CampMinder::SignedRequestFactory.new(CampMinder::SECRET_CODE)
-    payload = to_xml(root: 'responseObject')
     signed_request_factory.sign_payload(payload)
   end
 end
