@@ -8,6 +8,7 @@ describe CampMinder::EstablishConnection do
       'token' => 'DEF-456',
       'partnerClientID' => 'IEX-C-123'
     }
+
     @payload = %{<?xml version="1.0" encoding="UTF-8"?>
 <responseObject>
   <clientID>#{@data['clientID']}</clientID>
@@ -16,6 +17,11 @@ describe CampMinder::EstablishConnection do
   <partnerClientID>#{@data['partnerClientID']}</partnerClientID>
 </responseObject>
 }
+
+    @encoded_payload = Base64.encode64(@payload)
+    @encoded_signature = encode_signature(CampMinder::SECRET_CODE, @encoded_payload)
+    @signed_payload = "#{@encoded_signature}.#{@encoded_payload}"
+
     @establish_connection = CampMinder::EstablishConnection.new(@data)
   end
 
@@ -57,10 +63,41 @@ describe CampMinder::EstablishConnection do
 
   describe '#signed_object' do
     it 'signs the connection request' do
-      encoded_payload = Base64.encode64(@payload)
-      encoded_signature = encode_signature(CampMinder::SECRET_CODE, encoded_payload)
-      signed_payload = "#{encoded_signature}.#{encoded_payload}"
-      expect(@establish_connection.signed_object).to eq signed_payload
+      expect(@establish_connection.signed_object).to eq @signed_payload
+    end
+  end
+
+  describe '#connect' do
+    before do
+      @form_params = {
+        'businessPartnerID' => CampMinder::BUSINESS_PARTNER_ID,
+        'signedObject' => @signed_payload
+      }
+    end
+
+    it 'sends a failed connection post request to CampMinder' do
+      stub_request(:post, CampMinder::WEB_SERVICE_URL).
+      with(body: @form_params).
+      to_return(body: %{<?xml version="1.0" encoding="UTF-8"?>
+<responseObject version="1">
+  <Success>False</Success>
+  <Reason>Unknown</Reason>
+</responseObject>
+})
+      expect(@establish_connection.connect).to be false
+      expect(@establish_connection.connection_failure_reason).to eq 'Unknown'
+    end
+
+    it 'sends a successful connection post request to CampMinder' do
+      stub_request(:post, CampMinder::WEB_SERVICE_URL).
+      with(body: @form_params).
+      to_return(body: %{<?xml version="1.0" encoding="UTF-8"?>
+<responseObject version="1">
+  <Success>True</Success>
+</responseObject>
+})
+      expect(@establish_connection.connect).to be true
+      expect(@establish_connection.connection_failure_reason).to be nil
     end
   end
 end
