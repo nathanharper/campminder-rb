@@ -70,6 +70,7 @@ describe CampMinder::EstablishConnection do
   describe '#connect' do
     before do
       @form_params = {
+        'fn' => 'EstablishConnection',
         'businessPartnerID' => CampMinder::BUSINESS_PARTNER_ID,
         'signedObject' => @signed_payload
       }

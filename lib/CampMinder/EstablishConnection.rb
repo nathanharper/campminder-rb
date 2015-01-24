@@ -25,7 +25,7 @@ class CampMinder::EstablishConnection
 
   def connect
     uri = URI(CampMinder::WEB_SERVICE_URL)
-    res = Net::HTTP.post_form(uri, 'businessPartnerID' => CampMinder::BUSINESS_PARTNER_ID, 'signedObject' => signed_object)
+    res = Net::HTTP.post_form(uri, 'fn' => 'EstablishConnection', 'businessPartnerID' => CampMinder::BUSINESS_PARTNER_ID, 'signedObject' => signed_object)
     doc = Nokogiri.XML(res.body)
     success = doc.at_xpath('//Success').content
 
