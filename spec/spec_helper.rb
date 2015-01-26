@@ -20,6 +20,8 @@ require File.expand_path('../dummy/config/environment', __FILE__)
 
 Dir[File.dirname(__FILE__) + "/support/**/*.rb"].each {|f| require f }
 
+WebMock.disable_net_connect!(allow: "codeclimate.com")
+
 RSpec.configure do |config|
   config.include CampMinderSpecs
 end
