@@ -1,4 +1,5 @@
 require 'virtus'
+require 'active_model_serializers'
 
 module CampMinder
 end
