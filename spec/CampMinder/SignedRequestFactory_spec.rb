@@ -31,13 +31,14 @@ describe CampMinder::SignedRequestFactory do
     end
 
     it 'returns true if payload signed with SECRET_CODE' do
-      @encoded_signature = encode_signature(CampMinder::SECRET_CODE, @encoded_payload)
+      @encoded_signature = @signed_request_factory.encode_signature(@encoded_payload)
       @signed_payload = "#{@encoded_signature}.#{@encoded_payload}"
       expect(@signed_request_factory.is_valid_request?(@signed_payload)).to eq true
     end
 
     it 'returns false if payload not signed with SECRET_CODE' do
-      @encoded_signature = encode_signature("lol", @encoded_payload)
+      signed_request_factory = CampMinder::SignedRequestFactory.new('lol')
+      @encoded_signature = signed_request_factory.encode_signature(@encoded_payload)
       @signed_payload = "#{@encoded_signature}.#{@encoded_payload}"
       expect(@signed_request_factory.is_valid_request?(@signed_payload)).to eq false
     end
@@ -56,33 +57,33 @@ describe CampMinder::SignedRequestFactory do
     end
   end
 
-  describe '#decode_base64' do
+  describe '#prepare_decode_base64' do
     it 'pads to mod 4' do
-      expect(@signed_request_factory.decode_base64('AB')).to eq 'AB=='
-      expect(@signed_request_factory.decode_base64('ABCD')).to eq 'ABCD'
-      expect(@signed_request_factory.decode_base64('ABCDE')).to eq 'ABCDE==='
+      expect(@signed_request_factory.prepare_decode_base64('AB')).to eq 'AB=='
+      expect(@signed_request_factory.prepare_decode_base64('ABCD')).to eq 'ABCD'
+      expect(@signed_request_factory.prepare_decode_base64('ABCDE')).to eq 'ABCDE==='
     end
 
     it 'replaces - with +' do
-      expect(@signed_request_factory.decode_base64('-+++')).to eq '++++'
+      expect(@signed_request_factory.prepare_decode_base64('-+++')).to eq '++++'
     end
 
     it 'replaces _ with /' do
-      expect(@signed_request_factory.decode_base64('_///')).to eq '////'
+      expect(@signed_request_factory.prepare_decode_base64('_///')).to eq '////'
     end
   end
 
-  describe '#encode_base64' do
+  describe '#prepare_encoded_base64' do
     it 'removes =' do
-      expect(@signed_request_factory.encode_base64('AB==')).to eq 'AB'
+      expect(@signed_request_factory.prepare_encoded_base64('AB==')).to eq 'AB'
     end
 
     it 'replaces + with -' do
-      expect(@signed_request_factory.encode_base64('-+++')).to eq '----'
+      expect(@signed_request_factory.prepare_encoded_base64('-+++')).to eq '----'
     end
 
     it 'replaces / with _' do
-      expect(@signed_request_factory.encode_base64('_///')).to eq '____'
+      expect(@signed_request_factory.prepare_encoded_base64('_///')).to eq '____'
     end
   end
 end
