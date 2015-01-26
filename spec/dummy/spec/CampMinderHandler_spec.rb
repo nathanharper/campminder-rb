@@ -10,18 +10,16 @@ describe 'CampMinderHandler' do
   describe 'ClientLinkRequest' do
     before do
       @signed_request_factory = CampMinder::SignedRequestFactory.new(CampMinder::SECRET_CODE)
-      stub_request(:post, CampMinder::WEB_SERVICE_URL).
-        to_return(body: %(<?xml version="1.0" encoding="UTF-8"?>
-          <responseObject version="1">
-            <Success>True</Success>
-          </responseObject>))
     end
 
     it 'redirects with success on all good' do
       time = (Time.now.utc + 10).iso8601.to_s
       base64_time = Base64.encode64(time)
       signed_object = @signed_request_factory.encode_signature(base64_time) + '.' + base64_time
-      post '/camp_minder_handler', fn: 'ClientLinkRequest', username: 'johndoe', password: 'secret', signedObject: signed_object, token: 'DEF-456', clientID: 'C-123', personID: 'P-123'
+
+      VCR.use_cassette("ClientLinkRequestSuccess") do
+        post '/camp_minder_handler', fn: 'ClientLinkRequest', username: 'johndoe', password: 'secret', signedObject: signed_object, token: 'DEF-456', clientID: 'C-123', personID: 'P-123'
+      end
 
       expect(last_response.status).to eq 304
       expect(last_response.location).to eq "#{CampMinder::REDIRECTION_URL}?bpid=#{CampMinder::BUSINESS_PARTNER_ID}&success=true&reason="
@@ -31,20 +29,24 @@ describe 'CampMinderHandler' do
       time = (Time.now.utc - 10).iso8601.to_s
       base64_time = Base64.encode64(time)
       signed_object = @signed_request_factory.encode_signature(base64_time) + '.' + base64_time
+
       post '/camp_minder_handler', fn: 'ClientLinkRequest', username: 'johndoe', password: 'secret', signedObject: signed_object, token: 'DEF-456', clientID: 'C-123', personID: 'P-123'
 
       expect(last_response.status).to eq 304
       expect(last_response.location).to eq "#{CampMinder::REDIRECTION_URL}?bpid=#{CampMinder::BUSINESS_PARTNER_ID}&success=false&reason=Invalid GetLinkRequest - signature was invalid!"
     end
 
-    it 'redirects on connection failure' do
+    it 'redirects with failure on EstablishConnection failure' do
       time = (Time.now.utc + 10).iso8601.to_s
       base64_time = Base64.encode64(time)
-      signed_object = @signed_request_factory.encode_signature(base64_time) + '.' + base64_time
-      post '/camp_minder_handler', fn: 'ClientLinkRequest', username: 'johndoe', password: 'secret', signedObject: signed_object, token: 'DEF-456', clientID: 'C-123', personID: 'P-123'
+      signed_object = "#{@signed_request_factory.encode_signature(base64_time)}.#{base64_time}"
+
+      VCR.use_cassette("ClientLinkRequestEstablishConnectionFailure") do
+        post '/camp_minder_handler', fn: 'ClientLinkRequest', username: 'johndoe', password: 'secret', signedObject: signed_object, token: 'DEF-456', clientID: 'C-123', personID: 'P-123'
+      end
 
       expect(last_response.status).to eq 304
-      expect(last_response.location).to eq "#{CampMinder::REDIRECTION_URL}?bpid=#{CampMinder::BUSINESS_PARTNER_ID}&success=false&reason=unknown"
+      expect(last_response.location).to eq "#{CampMinder::REDIRECTION_URL}?bpid=#{CampMinder::BUSINESS_PARTNER_ID}&success=false&reason=Unknown"
     end
   end
 
