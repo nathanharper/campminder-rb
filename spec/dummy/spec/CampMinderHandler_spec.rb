@@ -30,10 +30,16 @@ describe 'CampMinderHandler' do
   end
 
   describe 'ServerTimeGet' do
+    before do
+      Timecop.freeze(Time.now)
+    end
+
+    after do
+      Timecop.return
+    end
+
     it 'responds with server time' do
       post '/camp_minder_handler', fn: 'ServerTimeGet'
-
-      Timecop.freeze(Time.now)
 
       expect(last_response.status).to eq 200
       expect(last_response.body).to eq %{<?xml version="1.0" encoding="UTF-8"?>

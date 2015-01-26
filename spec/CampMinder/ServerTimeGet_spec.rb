@@ -6,6 +6,10 @@ describe CampMinder::ServerTimeGet do
     @server_time_get = CampMinder::ServerTimeGet.new
   end
 
+  after do
+    Timecop.return
+  end
+
   describe '#initialize' do
     it 'initializes' do
       expect(@server_time_get).not_to be nil
