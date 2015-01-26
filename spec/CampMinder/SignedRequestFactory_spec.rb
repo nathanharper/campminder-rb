@@ -55,4 +55,26 @@ describe CampMinder::SignedRequestFactory do
       expect(@signed_request_factory.get_payload(@signed_payload)).to eq @payload
     end
   end
+
+  describe '#decode_base64' do
+    it 'pads to mod 4' do
+      expect(@signed_request_factory.decode_base64('AB')).to eq 'AB=='
+      expect(@signed_request_factory.decode_base64('ABCD')).to eq 'ABCD'
+      expect(@signed_request_factory.decode_base64('ABCDE')).to eq 'ABCDE==='
+    end
+
+    it 'replaces - with +' do
+      expect(@signed_request_factory.decode_base64('-+++')).to eq '++++'
+    end
+
+    it 'replaces _ with /' do
+      expect(@signed_request_factory.decode_base64('_///')).to eq '////'
+    end
+  end
+
+  describe '#encode_base64' do
+    it 'replaces + with -'
+    it 'replaces / with _'
+    it 'removes ='
+  end
 end

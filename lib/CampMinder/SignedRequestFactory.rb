@@ -3,6 +3,8 @@ require 'base64'
 class CampMinder::SignedRequestFactory
   include Virtus.model
 
+  PAD_LENGTH = 4
+
   attribute :secret_code, String, writer: :private, reader: :private
 
   def initialize(secret_code)
@@ -26,5 +28,14 @@ class CampMinder::SignedRequestFactory
     encoded_payload = Base64.encode64(payload)
     encoded_signature = encode_signature(encoded_payload)
     "#{encoded_signature}.#{encoded_payload}"
+  end
+
+  def decode_base64(encoded_payload)
+    mod = encoded_payload.length % PAD_LENGTH
+    encoded_payload += ('=' * (PAD_LENGTH - mod)) unless mod == 0
+    encoded_payload.gsub!('_', '/')
+    encoded_payload.gsub!('-', '+')
+
+    encoded_payload
   end
 end
