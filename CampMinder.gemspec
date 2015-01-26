@@ -29,6 +29,7 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency 'sqlite3', '~> 1.3'
   spec.add_development_dependency 'timecop', '~> 0.7'
   spec.add_development_dependency 'webmock', '~> 1.2'
+  spec.add_development_dependency 'vcr', '~> 2.9'
 
   spec.add_dependency 'virtus', '~> 1.0'
   spec.add_dependency 'active_model_serializers', '~> 0.8'
