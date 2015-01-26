@@ -73,8 +73,16 @@ describe CampMinder::SignedRequestFactory do
   end
 
   describe '#encode_base64' do
-    it 'replaces + with -'
-    it 'replaces / with _'
-    it 'removes ='
+    it 'removes =' do
+      expect(@signed_request_factory.encode_base64('AB==')).to eq 'AB'
+    end
+
+    it 'replaces + with -' do
+      expect(@signed_request_factory.encode_base64('-+++')).to eq '----'
+    end
+
+    it 'replaces / with _' do
+      expect(@signed_request_factory.encode_base64('_///')).to eq '____'
+    end
   end
 end

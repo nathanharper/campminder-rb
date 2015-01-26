@@ -38,4 +38,12 @@ class CampMinder::SignedRequestFactory
 
     encoded_payload
   end
+
+  def encode_base64(payload)
+    payload.gsub!('=', '')
+    payload.gsub!('+', '-')
+    payload.gsub!('/', '_')
+
+    payload
+  end
 end
