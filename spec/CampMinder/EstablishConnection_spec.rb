@@ -18,8 +18,9 @@ describe CampMinder::EstablishConnection do
 </responseObject>
 }
 
-    @encoded_payload = Base64.encode64(@payload)
-    @encoded_signature = encode_signature(CampMinder::SECRET_CODE, @encoded_payload)
+    @signed_request_factory = CampMinder::SignedRequestFactory.new(CampMinder::SECRET_CODE)
+    @encoded_payload = @signed_request_factory.prepare_encoded_base64(Base64.encode64(@payload))
+    @encoded_signature = @signed_request_factory.encode_signature(@encoded_payload)
     @signed_payload = "#{@encoded_signature}.#{@encoded_payload}"
 
     @establish_connection = CampMinder::EstablishConnection.new(@data)
