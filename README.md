@@ -47,8 +47,52 @@ sample settings.
 
 ### ClientLinkRequest
 
-POST https://partner.eg/camp_minder_handler
-CONTENT-TYPE ?multipart/form-data?
+The first thing we would recommend doing is writing a spec. We use Rack::Test.
+You can look at the specs for the [CampMinderHandler] for an example.
+
+Next, create the route for your controller.
+
+```
+post 'camp_minder_handler', to: 'camp_minder_handler#create'
+```
+
+Then, make your CampMinderHandlerController, and extend the CampMinder::HandlerController.
+
+```
+class CampMinderHandlerController < ApplicationController
+  include CampMinder::HandlerController
+end
+```
+
+Your CampMinderHandlerController must implement three methods:
+
+```
+class CampMinderHandlerController < ApplicationController
+  include CampMinder::HandlerController
+
+  # return Boolean
+  def valid_username_password?(username, password)
+    @user = User.find_by_email(username)
+    @user.valid_password?(password)
+  end
+
+  # return Integer
+  def partner_client_id
+    @user.company.id
+  end
+
+  # return Boolean
+  def store_partner_client(partner_client_id, client_id, person_id, token, connection_status)
+    PartnerClient.create(
+      partner_client_id: partner_client_id,
+      client_id: client_id,
+      person_id: person_id,
+      token: token,
+      connection_status: connection_status
+    ).valid?
+  end
+end
+```
 
 ## Domain
 
@@ -92,3 +136,5 @@ There is a dummy rails app at `spec/dummy`, the gems spec suite should be used t
 ## LICENCE
 
 `LICENSE.txt`
+
+[CampMinderHandler]: https://github.com/interexchange/campminder-rb/blob/master/spec/dummy/spec/CampMinderHandler_spec.rb#L10-L130

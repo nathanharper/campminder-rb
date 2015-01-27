@@ -8,8 +8,6 @@ module CampMinder::HandlerController
     end
   end
 
-  private
-
   def client_link_request
     @client_link_request = CampMinder::ClientLinkRequest.new(params)
 
