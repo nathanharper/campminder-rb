@@ -73,7 +73,7 @@ class CampMinderHandlerController < ApplicationController
   # return Boolean
   def valid_username_password?(username, password)
     @user = User.find_by_email(username)
-    @user.valid_password?(password)
+    @user.present? && @user.valid_password?(password)
   end
 
   # return Integer
