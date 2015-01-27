@@ -29,6 +29,7 @@ class CampMinder::EstablishConnection
     request = Net::HTTP::Post.new(uri.request_uri)
     request.set_form_data({'fn' => 'EstablishConnection', 'businessPartnerID' => CampMinder::BUSINESS_PARTNER_ID, 'signedObject' => signed_object})
     http.use_ssl = true
+    http.verify_mode = OpenSSL::SSL::VERIFY_NONE
     response = http.request(request)
 
     doc = Nokogiri.XML(response.body)
