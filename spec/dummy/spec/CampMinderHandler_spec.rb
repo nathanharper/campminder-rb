@@ -33,7 +33,8 @@ describe 'CampMinderHandler' do
     end
 
     it 'redirects with success on all good' do
-      allow_any_instance_of(DummyCampMinderHandlerController).to receive(:verify_username_password).with(@username, @password).and_return(@partner_client_id)
+      allow_any_instance_of(DummyCampMinderHandlerController).to receive(:valid_username_password?).with(@username, @password).and_return(true)
+      allow_any_instance_of(DummyCampMinderHandlerController).to receive(:partner_client_id).and_return(@partner_client_id)
       allow_any_instance_of(DummyCampMinderHandlerController).to receive(:store_partner_client).with(@partner_client_id, @client_id, @person_id, @token, @connection_status).and_return(true)
 
       VCR.use_cassette("ClientLinkRequestSuccess") do
@@ -52,7 +53,8 @@ describe 'CampMinderHandler' do
     end
 
     it 'redirects with failure on EstablishConnection failure' do
-      allow_any_instance_of(DummyCampMinderHandlerController).to receive(:verify_username_password).and_return(@partner_client_id)
+      allow_any_instance_of(DummyCampMinderHandlerController).to receive(:valid_username_password?).and_return(true)
+      allow_any_instance_of(DummyCampMinderHandlerController).to receive(:partner_client_id).and_return(@partner_client_id)
       allow_any_instance_of(DummyCampMinderHandlerController).to receive(:store_partner_client).and_return(true)
 
       VCR.use_cassette("ClientLinkRequestEstablishConnectionFailure") do
@@ -63,7 +65,39 @@ describe 'CampMinderHandler' do
       expect(last_response.location).to eq "#{CampMinder::REDIRECTION_URL}?bpid=#{CampMinder::BUSINESS_PARTNER_ID}&success=false&reason=Unknown"
     end
 
-    it 'throws an error when verify_username_password is unimplemented' do
+    it 'redirects with failure on valid_username_password? returning false' do
+      allow_any_instance_of(DummyCampMinderHandlerController).to receive(:valid_username_password?).and_return(false)
+
+      post '/camp_minder_handler', fn: 'ClientLinkRequest', username: @username, password: @password, signedObject: @success_signed_object, token: @token, clientID: @client_id, personID: @person_id
+
+      expect(last_response.status).to eq 304
+      expect(last_response.location).to eq "#{CampMinder::REDIRECTION_URL}?bpid=#{CampMinder::BUSINESS_PARTNER_ID}&success=false&reason=invalid username and password"
+    end
+
+    it 'redirects with failure on partner_client_id returning nil' do
+      allow_any_instance_of(DummyCampMinderHandlerController).to receive(:valid_username_password?).and_return(true)
+      allow_any_instance_of(DummyCampMinderHandlerController).to receive(:partner_client_id).and_return(nil)
+
+      post '/camp_minder_handler', fn: 'ClientLinkRequest', username: @username, password: @password, signedObject: @success_signed_object, token: @token, clientID: @client_id, personID: @person_id
+
+      expect(last_response.status).to eq 304
+      expect(last_response.location).to eq "#{CampMinder::REDIRECTION_URL}?bpid=#{CampMinder::BUSINESS_PARTNER_ID}&success=false&reason=partner client id not found"
+    end
+
+    it 'redirects with failure on store_partner_client failure' do
+      allow_any_instance_of(DummyCampMinderHandlerController).to receive(:valid_username_password?).and_return(true)
+      allow_any_instance_of(DummyCampMinderHandlerController).to receive(:partner_client_id).and_return(@partner_client_id)
+      allow_any_instance_of(DummyCampMinderHandlerController).to receive(:store_partner_client).and_return(false)
+
+      VCR.use_cassette("ClientLinkRequestSuccess") do
+        post '/camp_minder_handler', fn: 'ClientLinkRequest', username: @username, password: @password, signedObject: @success_signed_object, token: @token, clientID: @client_id, personID: @person_id
+      end
+
+      expect(last_response.status).to eq 304
+      expect(last_response.location).to eq "#{CampMinder::REDIRECTION_URL}?bpid=#{CampMinder::BUSINESS_PARTNER_ID}&success=false&reason=failed to save partner client"
+    end
+
+    it 'throws an error when valid_username_password? is unimplemented' do
       allow_any_instance_of(DummyCampMinderHandlerController).to receive(:store_partner_client).and_return(true)
 
       expect do
@@ -73,17 +107,9 @@ describe 'CampMinderHandler' do
       end.to raise_error NotImplementedError
     end
 
-    it 'redirects with failure on verify_username_password failure' do
-      allow_any_instance_of(DummyCampMinderHandlerController).to receive(:verify_username_password).and_return(nil)
-
-      post '/camp_minder_handler', fn: 'ClientLinkRequest', username: @username, password: @password, signedObject: @success_signed_object, token: @token, clientID: @client_id, personID: @person_id
-
-      expect(last_response.status).to eq 304
-      expect(last_response.location).to eq "#{CampMinder::REDIRECTION_URL}?bpid=#{CampMinder::BUSINESS_PARTNER_ID}&success=false&reason=invalid username and password"
-    end
-
-    it 'throws an error when store_partner_client is unimplemented' do
-      allow_any_instance_of(DummyCampMinderHandlerController).to receive(:verify_username_password).and_return(@partner_client_id)
+    it 'throws an error when partner_client_id is unimplemented' do
+      allow_any_instance_of(DummyCampMinderHandlerController).to receive(:valid_username_password?).and_return(true)
+      allow_any_instance_of(DummyCampMinderHandlerController).to receive(:store_partner_client).and_return(true)
 
       expect do
         VCR.use_cassette("ClientLinkRequestSuccess") do
@@ -92,16 +118,14 @@ describe 'CampMinderHandler' do
       end.to raise_error NotImplementedError
     end
 
-    it 'redirects with failure on store_partner_client failure' do
-      allow_any_instance_of(DummyCampMinderHandlerController).to receive(:verify_username_password).and_return(@partner_client_id)
-      allow_any_instance_of(DummyCampMinderHandlerController).to receive(:store_partner_client).and_return(false)
+    it 'throws an error when store_partner_client is unimplemented' do
+      allow_any_instance_of(DummyCampMinderHandlerController).to receive(:valid_username_password?).and_return(true)
 
-      VCR.use_cassette("ClientLinkRequestSuccess") do
-        post '/camp_minder_handler', fn: 'ClientLinkRequest', username: @username, password: @password, signedObject: @success_signed_object, token: @token, clientID: @client_id, personID: @person_id
-      end
-
-      expect(last_response.status).to eq 304
-      expect(last_response.location).to eq "#{CampMinder::REDIRECTION_URL}?bpid=#{CampMinder::BUSINESS_PARTNER_ID}&success=false&reason=failed to save partner client"
+      expect do
+        VCR.use_cassette("ClientLinkRequestSuccess") do
+          post '/camp_minder_handler', fn: 'ClientLinkRequest', username: @username, password: @password, signedObject: @success_signed_object, token: @token, clientID: @client_id, personID: @person_id
+        end
+      end.to raise_error NotImplementedError
     end
   end
 

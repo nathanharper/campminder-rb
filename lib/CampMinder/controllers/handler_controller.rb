@@ -16,28 +16,27 @@ module CampMinder::HandlerController
     success = @client_link_request.valid_expiration_time?
     reason = @client_link_request.invalid_reason
 
-    partner_client_id = nil
-
     if success
-      partner_client_id = verify_username_password(@client_link_request.username, @client_link_request.password)
-
-      if !partner_client_id
-        success = false
-        reason = 'invalid username and password'
-      end
+      success = valid_username_password?(@client_link_request.username, @client_link_request.password)
+      reason = 'invalid username and password' unless success
     end
 
     if success
-      connection = CampMinder::EstablishConnection.new(
-        'clientID' => @client_link_request.client_id,
-        'personID' => @client_link_request.person_id,
-        'token' => @client_link_request.token,
-        'partnerClientID' => partner_client_id
-      )
+      if partner_client_id != nil
+        connection = CampMinder::EstablishConnection.new(
+          'clientID' => @client_link_request.client_id,
+          'personID' => @client_link_request.person_id,
+          'token' => @client_link_request.token,
+          'partnerClientID' => partner_client_id
+        )
 
-      if !connection.connect
+        if !connection.connect
+          success = false
+          reason = connection.connection_failure_reason
+        end
+      else
         success = false
-        reason = connection.connection_failure_reason
+        reason = 'partner client id not found'
       end
     end
 
@@ -59,7 +58,11 @@ module CampMinder::HandlerController
     render xml: CampMinder::ServerTimeGet.new, root: 'responseObject'
   end
 
-  def verify_username_password(username, password)
+  def valid_username_password?(username, password)
+    raise NotImplementedError
+  end
+
+  def partner_client_id
     raise NotImplementedError
   end
 
