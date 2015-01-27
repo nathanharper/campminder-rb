@@ -33,8 +33,8 @@ describe 'CampMinderHandler' do
     end
 
     it 'redirects with success on all good' do
-      allow_any_instance_of(CampMinder::HandlerController).to receive(:verify_username_password).with(@username, @password).and_return(@partner_client_id)
-      allow_any_instance_of(CampMinder::HandlerController).to receive(:store_partner_client).with(@partner_client_id, @client_id, @person_id, @token, @connection_status).and_return(true)
+      allow_any_instance_of(DummyCampMinderHandlerController).to receive(:verify_username_password).with(@username, @password).and_return(@partner_client_id)
+      allow_any_instance_of(DummyCampMinderHandlerController).to receive(:store_partner_client).with(@partner_client_id, @client_id, @person_id, @token, @connection_status).and_return(true)
 
       VCR.use_cassette("ClientLinkRequestSuccess") do
         post '/camp_minder_handler', fn: 'ClientLinkRequest', username: @username, password: @password, signedObject: @success_signed_object, token: @token, clientID: @client_id, personID: @person_id
@@ -52,8 +52,8 @@ describe 'CampMinderHandler' do
     end
 
     it 'redirects with failure on EstablishConnection failure' do
-      allow_any_instance_of(CampMinder::HandlerController).to receive(:verify_username_password).and_return(@partner_client_id)
-      allow_any_instance_of(CampMinder::HandlerController).to receive(:store_partner_client).and_return(true)
+      allow_any_instance_of(DummyCampMinderHandlerController).to receive(:verify_username_password).and_return(@partner_client_id)
+      allow_any_instance_of(DummyCampMinderHandlerController).to receive(:store_partner_client).and_return(true)
 
       VCR.use_cassette("ClientLinkRequestEstablishConnectionFailure") do
         post '/camp_minder_handler', fn: 'ClientLinkRequest', username: @username, password: @password, signedObject: @success_signed_object, token: @token, clientID: @client_id, personID: @person_id
@@ -64,7 +64,7 @@ describe 'CampMinderHandler' do
     end
 
     it 'throws an error when verify_username_password is unimplemented' do
-      allow_any_instance_of(CampMinder::HandlerController).to receive(:store_partner_client).and_return(true)
+      allow_any_instance_of(DummyCampMinderHandlerController).to receive(:store_partner_client).and_return(true)
 
       expect do
         VCR.use_cassette("ClientLinkRequestSuccess") do
@@ -74,7 +74,7 @@ describe 'CampMinderHandler' do
     end
 
     it 'redirects with failure on verify_username_password failure' do
-      allow_any_instance_of(CampMinder::HandlerController).to receive(:verify_username_password).and_return(nil)
+      allow_any_instance_of(DummyCampMinderHandlerController).to receive(:verify_username_password).and_return(nil)
 
       post '/camp_minder_handler', fn: 'ClientLinkRequest', username: @username, password: @password, signedObject: @success_signed_object, token: @token, clientID: @client_id, personID: @person_id
 
@@ -83,7 +83,7 @@ describe 'CampMinderHandler' do
     end
 
     it 'throws an error when store_partner_client is unimplemented' do
-      allow_any_instance_of(CampMinder::HandlerController).to receive(:verify_username_password).and_return(@partner_client_id)
+      allow_any_instance_of(DummyCampMinderHandlerController).to receive(:verify_username_password).and_return(@partner_client_id)
 
       expect do
         VCR.use_cassette("ClientLinkRequestSuccess") do
@@ -93,8 +93,8 @@ describe 'CampMinderHandler' do
     end
 
     it 'redirects with failure on store_partner_client failure' do
-      allow_any_instance_of(CampMinder::HandlerController).to receive(:verify_username_password).and_return(@partner_client_id)
-      allow_any_instance_of(CampMinder::HandlerController).to receive(:store_partner_client).and_return(false)
+      allow_any_instance_of(DummyCampMinderHandlerController).to receive(:verify_username_password).and_return(@partner_client_id)
+      allow_any_instance_of(DummyCampMinderHandlerController).to receive(:store_partner_client).and_return(false)
 
       VCR.use_cassette("ClientLinkRequestSuccess") do
         post '/camp_minder_handler', fn: 'ClientLinkRequest', username: @username, password: @password, signedObject: @success_signed_object, token: @token, clientID: @client_id, personID: @person_id
