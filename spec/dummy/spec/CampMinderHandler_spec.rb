@@ -25,7 +25,7 @@ describe 'CampMinderHandler' do
       @client_id = 'C-123'
       @person_id = 'P-123'
       @token = 'DEF-456'
-      @connection_status = 1
+      @connection_status = true
     end
 
     after do

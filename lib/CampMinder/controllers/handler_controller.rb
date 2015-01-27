@@ -46,7 +46,7 @@ module CampMinder::HandlerController
         @client_link_request.client_id,
         @client_link_request.person_id,
         @client_link_request.token,
-        1 # TODO: what is connection status for? If we've reached this point, they are presumably connected.
+        true
       )
       reason = 'failed to save partner client' unless success
     end
